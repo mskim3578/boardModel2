@@ -1,21 +1,13 @@
-<%@page import="model.Board"%>
-<%@page import="dao.BoardDao"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
-<%-- /WebContent/model1/board/updateForm.jsp
-    1. num 값의 게시물을 조회화여 화면 출력하기 
---%>
-<%
-	int num = Integer.parseInt(request.getParameter("num"));
-Board board = new BoardDao().selectOne(num);
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
 <title>게시판 수정 화면</title>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/chap07_jdbc/css/main.css">
+	href="<%=request.getContextPath()%>/css/main.css">
 <script>
 	function file_delete() {
 		file_desc = document.getElementById("file_desc")
@@ -25,16 +17,15 @@ Board board = new BoardDao().selectOne(num);
 </script>
 </head>
 <body>
-	<form action="update.jsp" method="post" enctype="multipart/form-data"
+	<form action="update" method="post" enctype="multipart/form-data"
 		name="f">
-		<input type="hidden" name="num" value="<%=board.getNum()%>">
-		<input type="hidden" name="file2"
-			value="<%=((board.getFile1() == null) ? "" : board.getFile1())%>">
+		<input type="hidden" name="num" value="${board.num}">
+		<input type="hidden" name="file2"  	value="${board.file1}">
 		<table>
 			<caption>MODEL1 게시판 수정 화면</caption>
 			<tr>
 				<td>글쓴이</td>
-				<td><input type="text" name="name" value="<%=board.getName()%>"></td>
+				<td><input type="text" name="name" value="${board.name}"></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
@@ -43,23 +34,21 @@ Board board = new BoardDao().selectOne(num);
 			<tr>
 				<td>제목</td>
 				<td><input type="text" name="subject"
-					value="<%=board.getSubject()%>"></td>
+					value="${board.subject}"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea rows="15" name="content"><%=board.getContent()%></textarea></td>
+				<td><textarea rows="15" name="content">${board.content}</textarea></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>
 				<td style="text-align: left">
-					<%
-						if (board.getFile1() != null && (!board.getFile1().equals(""))) {
-					%>
-					<div id="file_desc"><%=board.getFile1()%>
+				<c:if test="${board.file1 != null && board.file1 ne ''}">
+					
+					<div id="file_desc">${board.file1}
 						<a href="javascript:file_delete()">[첨부파일 삭제]</a>
-					</div> <%
- 	}
- %> <input type="file" name="file1">
+					</div> </c:if>
+				<input type="file" name="file1">
 				</td>
 			</tr>
 			<tr>
