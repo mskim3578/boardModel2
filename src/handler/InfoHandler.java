@@ -24,15 +24,6 @@ public class InfoHandler implements CommandHandler {
 		dao.readcntadd(num); //조회건수증가
 		request.setAttribute("board", board);
 		request.setAttribute("num", num);
-			
-	
-		
-		
-		
-		
-		
-		
-		
 		return "/view/board/info.jsp";
 	}
 
